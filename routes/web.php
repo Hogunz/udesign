@@ -5,6 +5,8 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReceivingController;
 use App\Http\Controllers\StockInController;
+use App\Http\Controllers\StockoutController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +19,7 @@ use App\Http\Controllers\StockInController;
 */
 
 
-Route::get('/hehe', function(){
-    return view('receiving.dashboard');
-});
+
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/', [ReceivingController::class, 'index']);
@@ -35,11 +35,14 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/stockin',[StockinController::class, 'index']);
     Route::resource('stockin',StockinController::class);
+    Route::get('/stockout',[StockoutController::class, 'index']);
+    Route::resource('stockout',StockoutController::class);
 
     Route::get('size/restore/{id}',[SizeController::class,'restore'])->name('size.restore');
     Route::get('receiving/restore/{id}',[ReceivingController::class,'restore'])->name('receiving.restore');
     Route::get('category/restore/{id}',[CategoryController::class,'restore'])->name('category.restore');
     Route::get('stockin/restore/{id}',[stockinController::class,'restore'])->name('stockin.restore');
+    Route::get('stockout/restore/{id}',[stockoutController::class,'restore'])->name('stockout.restore');
 });
 
 

@@ -33,38 +33,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($stockins as $stockin)
+                    @foreach($stockouts as $stockout)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $stockin->id }}
+                            {{ $stockout->id }}
                         </th>
                         <td class="py-4 px-6">
-                            {{ $stockin->receiving->category->category. " - ".$stockin->receiving->size->size }}
+                            {{ $stockout->receiving->category->category. " - ".$stockout->receiving->size->size }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $stockin->quantity }}
+                            {{ $stockout->quantity }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $stockin->created_at->format('F d, Y H:i:s') }}
+                            {{ $stockout->created_at->format('F d, Y H:i:s') }}
                         </td>
                         <td class="flex flex-row gap-2 py-4 ">
-                            @if(!$stockin->trashed())
-                            <a href="{{ route('stockin.edit', $stockin->id) }}" class="href">
+                            @if(!$stockout->trashed())
+                            <a href="{{ route('stockout.edit', $stockout->id) }}" class="href">
                                 <x-button>EDIT</x-button>
                             </a>
-                            <form action="{{ route('stockin.destroy', $stockin->id) }}" method="post">
+                            <form action="{{ route('stockout.destroy', $stockout->id) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <x-button class="">Delete</x-button>
                             </form>
                             @else
-                            <a href="{{ route('stockin.restore', $stockin->id) }}">Restore</a>
+                            <a href="{{ route('stockout.restore', $stockout->id) }}">Restore</a>
                             @endif
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
-                <a href="{{ route('stockin.create') }}" class="href">
+                <a href="{{ route('stockout.create') }}" class="href">
                     <x-button class="mt-4 mb-4">Create</x-button>
                 </a>
             </table>

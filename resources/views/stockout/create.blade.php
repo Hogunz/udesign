@@ -4,7 +4,7 @@
     <div class="container mx-auto">
 
         <div class="overflow-x-auto relative ">
-            <form action="{{ route('stockin.store') }}" method="post">
+            <form action="{{ route('stockout.store') }}" method="post">
                 @csrf
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -38,7 +38,7 @@
                 </table>
                 <div class="text-center">
                     <x-button type="submit" class="my-6">ADD</x-button>
-                    <a href="/stockin" class="href">
+                    <a href="#" class="href">
                         <x-button type="button" class="my-6">BACK</x-button>
                     </a>
                 </div>

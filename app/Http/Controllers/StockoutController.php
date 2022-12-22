@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stockout;
 use App\Models\Receiving;
-use App\Models\StockIn;
 use Illuminate\Http\Request;
 
-class StockInController extends Controller
+class StockoutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class StockInController extends Controller
      */
     public function index()
     {
-     
-        $stockins = Stockin::withTrashed()->get();
-        return view('stockin.index', compact('stockins'));
+    
+        $stockouts = Stockout::withTrashed()->get();
+        return view('stockout.index', compact('stockouts'));
     }
 
     /**
@@ -28,7 +28,7 @@ class StockInController extends Controller
     public function create()
     {
         $receivings = Receiving::all();
-        return view('stockin.create', compact('receivings'));
+        return view('stockout.create', compact('receivings'));
     }
 
     /**
@@ -39,24 +39,23 @@ class StockInController extends Controller
      */
     public function store(Request $request)
     {
-        Stockin::create([
+        Stockout::create([
             'receiving_id' => $request->receiving_id,
             'quantity' => $request->quantity,
         ]);
 
         $receiving = Receiving::find($request->receiving_id);
-        $receiving->increment('quantity', $request->quantity);
-
-        return redirect()->route('stockin.index')->with('message', 'Success');
+        $receiving->decrement('quantity', $request->quantity);
+        return redirect()->route('stockout.index')->with('message', 'Success');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\StockIn  $stockIn
+     * @param  \App\Models\Stockout  $stockout
      * @return \Illuminate\Http\Response
      */
-    public function show(StockIn $stockIn)
+    public function show(Stockout $stockout)
     {
         //
     }
@@ -64,48 +63,48 @@ class StockInController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\StockIn  $stockIn
+     * @param  \App\Models\Stockout  $stockout
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $stockin = Stockin::find($id);
-        return view('stockin.edit', compact('stockin'));
+        $stockout = Stockout::find($id);
+        return view('stockout.edit', compact('stockout'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StockIn  $stockIn
+     * @param  \App\Models\Stockout  $stockout
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StockIn $id)
+    public function update(Request $request, Stockout $id)
     {
-        $stockin = Stockin::find($id);
-        $stockin->update([
-            'stockin' => $request->size,
+        $stockout = Stockout::find($id);
+        $stockout->update([
+            'stockout' => $request->size,
         ]);
-        return redirect()->route('stockin.index');
+        return redirect()->route('stockout.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StockIn  $stockIn
+     * @param  \App\Models\Stockout  $stockout
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $stockin = Stockin::find($id);
-        $stockin->delete();
-        return redirect()->route('stockin.index');
+        $stockout = Stockout::find($id);
+        $stockout->delete();
+        return redirect()->route('stockout.index');
     }
     public function restore($id)
     {
-        Stockin::withTrashed()
+        Stockout::withTrashed()
             ->where('id', $id)
             ->restore();
-        return redirect()->route('stockin.index');
+        return redirect()->route('stockout.index');
     }
 }
